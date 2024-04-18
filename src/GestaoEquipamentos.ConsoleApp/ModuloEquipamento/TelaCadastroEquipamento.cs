@@ -41,30 +41,8 @@
             string numeroSerie = ReceberInformacao("Informe o numero de serie do equipamento: ");
             string fabricante = ReceberInformacao("Informe o nome do fabricante: ");
             double valorEquipamento = double.Parse(ReceberInformacao("Informe o preço do equipamento: "));
-            string dataFabricacao = ReceberInformacao("Informe a data de fabricação do equipamento: ");
+            DateTime dataFabricacao = DateTime.Parse(ReceberInformacao("Informe a data de fabricação do equipamento (dd/mm/aaaa): "));
             return new Equipamento(nomeEquipamento, numeroSerie, fabricante, valorEquipamento, dataFabricacao);
-        }
-        public int MenuPrincipal()
-        {
-            char opcao;
-            do
-            {
-                Cabecalho();
-                Console.WriteLine(" 1 - Cadastrar Equipamentos");
-                Console.WriteLine(" 2 - Controle de chamados");
-                Console.WriteLine(" 0 - Sair\n");
-
-                Console.WriteLine("Informe a opção desejada: ");
-                opcao = Console.ReadLine()[0];
-
-                if (char.IsNumber(opcao))
-                    break;
-
-                Notificador.AvisoColorido("Apenas números sao permitidos! Tente novamente!", ConsoleColor.Red);
-
-            } while (true);
-
-            return Convert.ToInt32(opcao + "");
         }
         public int MenuSecundario()
         {
@@ -102,7 +80,6 @@
             }
 
             repositorio.InserirEquipamento(equipamento);
-            Console.ReadKey();
         }
         public void Visualizar()
         {
@@ -153,6 +130,35 @@
                 Notificador.AvisoColorido("Não existem um equipamento com esse nome!", ConsoleColor.Red);
             }
             repositorio.RemoverEquipamento(nomeEquipamento);
+        }
+        public void AcessarMenuEquipamentos()
+        {
+            while (true)
+            {
+                int menuSecundario = MenuSecundario();
+
+                if (menuSecundario == 0)
+                    break;
+
+
+                if (menuSecundario != 1 && menuSecundario != 2 && menuSecundario != 3 && menuSecundario != 4)
+                {
+                    Notificador.AvisoColorido("Opção Inválida! Tente novamente!", ConsoleColor.Red);
+                    continue;
+                }
+
+                if (menuSecundario == 1)
+                    Inserir();
+
+                else if (menuSecundario == 2)
+                    Visualizar();
+
+                else if (menuSecundario == 3)
+                    Editar();
+
+                else
+                    Remover();
+            }
         }
     }
 }

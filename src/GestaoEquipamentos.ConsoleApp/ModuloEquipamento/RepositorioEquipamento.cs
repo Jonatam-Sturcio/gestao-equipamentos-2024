@@ -1,13 +1,8 @@
-﻿namespace GestaoEquipamentos.ConsoleApp
+﻿namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamento
 {
     internal class RepositorioEquipamento
     {
-        private Equipamento[] ListaEquipamentos;
-
-        public RepositorioEquipamento()
-        {
-            ListaEquipamentos = new Equipamento[20];
-        }
+        private static Equipamento[] ListaEquipamentos = new Equipamento[20];
         public bool ListaEstaVazia()
         {
             int contador = 0;
@@ -74,6 +69,22 @@
                 }
             }
             return false;
+        }
+
+        public Equipamento RetornaEquipamento(string nomeEquipamento)
+        {
+            if (EquipamentoExiste(nomeEquipamento))
+            {
+                for (int i = 0; i < ListaEquipamentos.Length; i++)
+                {
+                    if (ListaEquipamentos[i] is not null && ListaEquipamentos[i].RetornaNome() == nomeEquipamento)
+                    {
+                        return ListaEquipamentos[i];
+                    }
+                }
+                return null;
+            }
+            return null;
         }
     }
 }
